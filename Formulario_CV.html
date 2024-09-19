@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario CV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+        input[type="text"], input[type="time"], textarea, select, datalist {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .radio-group, .checkbox-group {
+            margin-top: 10px;
+        }
+        .radio-group label, .checkbox-group label {
+            margin-right: 20px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .cv-output {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario para CV</h1>
+        <form id="cvForm">
+            <label for="nombre">Nombre y Apellidos:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="fecha-nacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" required>
+
+            <label for="ocupacion">Ocupación:</label>
+            <input type="text" id="ocupacion" name="ocupacion" required>
+
+            <label for="contacto">Contacto (Teléfono o Email):</label>
+            <input type="text" id="contacto" name="contacto" required>
+
+            <label for="nacionalidad">Nacionalidad:</label>
+            <select id="nacionalidad" name="nacionalidad" required>
+                <option value="peruana">Peruana</option>
+                <option value="chilena">Chilena</option>
+                <option value="argentina">Argentina</option>
+                <option value="mexicana">Mexicana</option>
+            </select>
+
+            <label>Nivel de Inglés:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="nivel-ingles" value="basico" required> Básico</label>
+                <label><input type="radio" name="nivel-ingles" value="intermedio"> Intermedio</label>
+                <label><input type="radio" name="nivel-ingles" value="avanzado"> Avanzado</label>
+                <label><input type="radio" name="nivel-ingles" value="fluido"> Fluido</label>
+            </div>
+
+            <label for="lenguajes">Lenguajes de Programación:</label>
+            <select id="lenguajes" name="lenguajes" multiple>
+                <option value="python">Python</option>
+                <option value="javascript">JavaScript</option>
+                <option value="java">Java</option>
+                <option value="csharp">C#</option>
+                <option value="cpp">C++</option>
+            </select>
+
+            <label for="aptitudes">Aptitudes:</label>
+            <input list="aptitudes-list" id="aptitudes" name="aptitudes">
+            <datalist id="aptitudes-list">
+                <option value="Trabajo en equipo">
+                <option value="Liderazgo">
+                <option value="Comunicación">
+                <option value="Resolución de problemas">
+            </datalist>
+
+            <label>Habilidades:</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="habilidades" value="creatividad"> Creatividad</label>
+                <label><input type="checkbox" name="habilidades" value="gestion-tiempo"> Gestión del tiempo</label>
+                <label><input type="checkbox" name="habilidades" value="pensamiento-critico"> Pensamiento crítico</label>
+                <label><input type="checkbox" name="habilidades" value="proactivo"> Proactividad</label>
+            </div>
+
+            <label for="perfil">Perfil Profesional:</label>
+            <textarea id="perfil" name="perfil" rows="4" required></textarea>
+
+            <input type="submit" value="Generar CV">
+        </form>
+
+        <div class="cv-output" id="cvOutput" style="display: none;">
+            <h2>Tu CV</h2>
+            <p><strong>Nombre y Apellidos:</strong> <span id="cvNombre"></span></p>
+            <p><strong>Fecha de Nacimiento:</strong> <span id="cvFechaNacimiento"></span></p>
+            <p><strong>Ocupación:</strong> <span id="cvOcupacion"></span></p>
+            <p><strong>Contacto:</strong> <span id="cvContacto"></span></p>
+            <p><strong>Nacionalidad:</strong> <span id="cvNacionalidad"></span></p>
+            <p><strong>Nivel de Inglés:</strong> <span id="cvNivelIngles"></span></p>
+            <p><strong>Lenguajes de Programación:</strong> <span id="cvLenguajes"></span></p>
+            <p><strong>Aptitudes:</strong> <span id="cvAptitudes"></span></p>
+            <p><strong>Habilidades:</strong> <span id="cvHabilidades"></span></p>
+            <p><strong>Perfil Profesional:</strong> <span id="cvPerfil"></span></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('cvForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe
+
+            // Obtener los valores de los campos del formulario
+            const nombre = document.getElementById('nombre').value;
+            const fechaNacimiento = document.getElementById('fecha-nacimiento').value;
+            const ocupacion = document.getElementById('ocupacion').value;
+            const contacto = document.getElementById('contacto').value;
+            const nacionalidad = document.getElementById('nacionalidad').value;
+            const nivelIngles = document.querySelector('input[name="nivel-ingles"]:checked').value;
+
+            const lenguajes = Array.from(document.getElementById('lenguajes').selectedOptions).map(option => option.text).join(', ');
+            const aptitudes = document.getElementById('aptitudes').value;
+            const habilidades = Array.from(document.querySelectorAll('input[name="habilidades"]:checked')).map(checkbox => checkbox.parentNode.textContent.trim()).join(', ');
+            const perfil = document.getElementById('perfil').value;
+
+            // Mostrar los valores en el CV
+            document.getElementById('cvNombre').textContent = nombre;
+            document.getElementById('cvFechaNacimiento').textContent = fechaNacimiento;
+            document.getElementById('cvOcupacion').textContent = ocupacion;
+            document.getElementById('cvContacto').textContent = contacto;
+            document.getElementById('cvNacionalidad').textContent = nacionalidad;
+            document.getElementById('cvNivelIngles').textContent = nivelIngles;
+            document.getElementById('cvLenguajes').textContent = lenguajes;
+            document.getElementById('cvAptitudes').textContent = aptitudes;
+            document.getElementById('cvHabilidades').textContent = habilidades;
+            document.getElementById('cvPerfil').textContent = perfil;
+
+            // Mostrar la sección del CV
+            document.getElementById('cvOutput').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
